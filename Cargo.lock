@@ -2567,6 +2567,7 @@ dependencies = [
 name = "warikan-sats-backend"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "gl-client",
  "serde",
  "tokio",

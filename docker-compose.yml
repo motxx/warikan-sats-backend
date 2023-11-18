@@ -10,7 +10,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/myapp
+      DATABASE_URL: postgres://postgres:password@db:5432/db
 
   db:
     image: postgres:13
@@ -19,7 +19,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: myapp
+      POSTGRES_DB: db
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
