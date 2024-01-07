@@ -3314,6 +3314,7 @@ dependencies = [
  "bip39",
  "breez-sdk-core",
  "dotenvy",
+ "rand",
  "serde",
  "tokio",
 ]
