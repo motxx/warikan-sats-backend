@@ -7,6 +7,6 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.75"
-gl-client = { git = "https://github.com/Blockstream/greenlight.git" }
+gl-client = { git = "https://github.com/Blockstream/greenlight.git", version = "0.1.9" }
 serde = { version = "1.0.192", features = ["derive"] }
 tokio = { version = "1.34.0", features = ["full"] }
