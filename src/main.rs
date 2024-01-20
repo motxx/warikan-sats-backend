@@ -1,5 +1,6 @@
 use anyhow::{Context, Ok, Result};
 use bip39::{Language, Mnemonic};
+use gl_client::bitcoin::hashes::hex::ToHex;
 use gl_client::bitcoin::Network;
 use gl_client::pb::cln;
 use gl_client::scheduler::Scheduler;
@@ -44,12 +45,13 @@ async fn test_payment(mut node: gl_client::node::ClnClient) -> Result<()> {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let tls = get_tls_config()?;
     let secret = get_mnemonic()?;
     let network = Network::Bitcoin;
+    let tls = get_tls_config()?;
     let signer =
         Signer::new(secret, network, tls.clone()).with_context(|| "Failed to create signer")?;
 
+    println!("Signer node id: {}", signer.node_id().to_hex());
     let scheduler = Scheduler::new(signer.node_id(), network).await?;
     scheduler.register(&signer, None).await?;
 
