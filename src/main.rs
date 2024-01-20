@@ -39,10 +39,12 @@ fn get_mnemonic() -> Result<Vec<u8>> {
 }
 
 async fn test_payment(mut node: gl_client::node::ClnClient) -> Result<()> {
-    let res = node.getinfo(cln::GetinfoRequest::default()).await;
-    res.map(|r| println!("getinfo: {:?}", r))
-        .map_err(|e| println!("getinfo error: {:?}", e))
-        .ok();
+    let info = node.getinfo(cln::GetinfoRequest::default()).await?;
+    println!("Node info: {:?}", info);
+    let peers = node
+        .list_peers(gl_client::pb::cln::ListpeersRequest::default())
+        .await?;
+    println!("Peers: {:?}", peers);
     Ok(())
 }
 
@@ -56,9 +58,10 @@ async fn main() -> Result<()> {
 
     println!("Signer node id: {}", signer.node_id().to_hex());
     let scheduler = Scheduler::new(signer.node_id(), network).await?;
-    if let Err(_) = scheduler.register(&signer, None).await {
-        println!("Signer already registered");
+    if scheduler.register(&signer, None).await.is_ok() {
+        println!("Signer registered");
     }
+
     let node: gl_client::node::ClnClient = scheduler.schedule(tls).await?;
     println!("Scheduler is working...");
 
